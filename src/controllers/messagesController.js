@@ -9,10 +9,10 @@ const getMessages = async(req, res) => {
 
 const postMessages = async(req, res) => {
     const {to, text, type} = req.body
-    const from = req.headers.user
+    const {user} = req.headers
 
     await db.collection("messages").insertOne({
-        from: from,
+        from: user,
         to: to,
         text: text,
         type: type,

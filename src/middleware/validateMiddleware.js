@@ -22,17 +22,16 @@ const validatePostMessages = async(req, res, next) => {
     })
 
     const userSchema = joi.object({
-        user: joi.string().required()
-    })
-    const messagevalidation = messageSchema.validate(req.body, {abortEarly: false})
+        user: joi.string().required()})
+    const messageValidation = messageSchema.validate(req.body, {abortEarly: false})
 
-    const userValidation = userSchema.validate(req.headers)
-
-    if(!userValidation.error) {
+    const userValidation = userSchema.validate({user: req.headers.user})
+    console.log(userValidation)
+    if(userValidation.error) {
         return res.status(422).send("deve ser string não vazio")
     }
 
-    if(messagevalidation.error) {
+    if(messageValidation.error) {
         console.log(validation.error)
         const errors = validation.error.details.map((detail) => {
            return detail.message
