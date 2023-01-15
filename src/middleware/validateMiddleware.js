@@ -22,6 +22,8 @@ const validatePostMessages = async(req, res, next) => {
     })
     const userSchema = joi.object({
         user: joi.string().required()})
+    const exist = await db.collection("participants").findOne({name: req.headers.user})
+    if(!exist) return res.sendStatus(422)   
     const messageValidation = messageSchema.validate(req.body, {abortEarly: false})
     const userValidation = userSchema.validate({user: req.headers.user})
     if(userValidation.error) {
@@ -32,9 +34,7 @@ const validatePostMessages = async(req, res, next) => {
            return detail.message
         })
         return res.status(422).send(errors)
-    }  
-    const exist = await db.collection("participants").findOne({name: req.headers.user})
-    if(exist) return res.sendStatus(422)    
+    }   
     next()
 }
 
