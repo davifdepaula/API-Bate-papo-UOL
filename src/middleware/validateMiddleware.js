@@ -39,10 +39,12 @@ const validatePostMessages = async(req, res, next) => {
 }
 
 
-const validatePostStatus = (req, res, next) => {
+const validatePutStatus = (req, res, next) => {
     const {user} = req.headers
     const exist = db.collection("participants").findOne({user})
     if(!exist) return res.status(404)
+
+    next()
 }
 
 
@@ -50,5 +52,6 @@ const validatePostStatus = (req, res, next) => {
 
 export{
     validatePostParticipants,
-    validatePostMessages
+    validatePostMessages,
+    validatePutStatus
 }
