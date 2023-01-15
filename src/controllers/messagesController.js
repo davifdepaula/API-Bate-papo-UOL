@@ -7,6 +7,22 @@ const getMessages = async(req, res) => {
     return res.send(messages)
 }
 
+const postMessages = async(req, res) => {
+    const {to, text, type} = req.body
+    const {from} = req.headers
+
+    await db.collection("messages").insertOne({
+        from: from,
+        to: to,
+        text: text,
+        type: type,
+        time: dayjs().format("hh:mm:ss")
+    })
+
+    return res.sendStatus(201)
+}
+
 export {
-    getMessages
+    getMessages,
+    postMessages
 }
