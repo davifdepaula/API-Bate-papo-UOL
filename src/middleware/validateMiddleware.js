@@ -42,7 +42,7 @@ const validatePostMessages = async(req, res, next) => {
 const validatePostStatus = async(req, res, next) => {
     const {user} = req.headers
     const exist = await db.collection("participants").findOne({name: user})
-    if(!exist) return res.status(404)
+    if(!exist) return res.sendStatus(404)
     next()
 }
 
