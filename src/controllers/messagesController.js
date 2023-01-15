@@ -3,6 +3,8 @@ import dayjs from "dayjs"
 
 
 const getMessages = async(req, res) => {
+    const {limit} = req.query
+    const {user} = req.headers
     const messages = await db.collection("messages").find().toArray()
     return res.send(messages)
 }
