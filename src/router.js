@@ -12,7 +12,7 @@ routes.get("/participants", getParticipants)
 routes.get("/messages", getMessages)
 routes.post("/participants", validatePostParticipants, postParticipants)
 routes.post("/messages", validatePostMessages, postMessages)
-routes.put("/status", validatePutStatus, putStatus)
+routes.post("/status", validatePutStatus, putStatus)
 
 export {
     routes
