@@ -1,10 +1,11 @@
 import { db } from "../config/connection.js"
 import joi from "joi"
 
+const participantsSchema = joi.object({
+    name: joi.string().required()
+})
+
 const validatePostParticipants = async(req, res, next) => {
-    const participantsSchema = joi.object({
-        name: joi.string().required()
-    })
     const validation = participantsSchema.validate(req.body)
     if(validation.error) {
         return res.status(422).send("deve ser string não vazio")
@@ -20,7 +21,13 @@ const validatePostMessages = async(req, res, next) => {
         text: joi.string().required(),
         type: joi.string().valid("message", "private_message").required()
     })
+    
+    const userValidation = participantsSchema.validate(req.headers)
     const validation = messageSchema.validate(req.body, {abortEarly: false})
+
+    if(userValidation.error) {
+        return res.status(422).send("deve ser string não vazio")
+    }
 
     if(validation.error) {
         console.log(validation.error)
