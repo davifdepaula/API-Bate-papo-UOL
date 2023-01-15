@@ -10,8 +10,8 @@ const routes = express.Router()
 routes.get("/participants", getParticipants)
 routes.get("/messages", getMessages)
 routes.post("/participants", validatePostParticipants, postParticipants)
-routes.post("/messages", validatePostMessages , postMessages)
+routes.post("/messages", validatePostMessages, postMessages)
 
 export {
     routes
-}
+} 
