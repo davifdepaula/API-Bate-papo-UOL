@@ -33,6 +33,8 @@ const validatePostMessages = async(req, res, next) => {
         })
         return res.status(422).send(errors)
     }  
+    const exist = await db.collection("participants").findOne({name: req.headers.user})
+    if(exist) return res.sendStatus(422)    
     next()
 }
 
