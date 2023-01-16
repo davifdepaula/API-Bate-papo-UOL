@@ -24,10 +24,10 @@ const postMessages = async(req, res) => {
     const {user} = req.headers
 
     await db.collection("messages").insertOne({
-        from: stripHtml(user),
-        to: stripHtml(to),
-        text: stripHtml(text),
-        type: stripHtml(type),
+        from: stripHtml(user).trim(),
+        to: stripHtml(to).trim(),
+        text: stripHtml(text).trim(),
+        type: stripHtml(type).trim(),
         time: dayjs().format("hh:mm:ss")
     })
 
