@@ -5,16 +5,17 @@ import dayjs from "dayjs"
 const getMessages = async(req, res) => {
     const {limit} = req.query
     const {user} = req.headers
-    const allMessages = await db.collection("messages").find().toArray()
-    const messages = allMessages.filter(message => {
+    let allMessages = await db.collection("messages").find().toArray()
+    let messages = allMessages.filter(message => {
         if(message.type == "private_message" ){
             if(message.to == user || message.from == user){
                 return message
             }
         }
         else return message
-
     })
+    
+    if (limit > 0) return res.send(messages.reverse.slice(0, limit))
     return res.send(messages)
 }
 
