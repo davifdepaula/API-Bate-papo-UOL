@@ -38,11 +38,23 @@ const validatePostMessages = async(req, res, next) => {
     next()
 }
 
-
 const validatePostStatus = async(req, res, next) => {
     const {user} = req.headers
     const exist = await db.collection("participants").findOne({name: user})
     if(!exist) return res.sendStatus(404)
+    next()
+}
+
+const validateLimit = (req, res, next) => {
+    const {limit} = req.query
+    const limitSchema = joi.object({
+        limit: joi.number().greater(0)
+    })
+
+    const limitValidation =limitSchema.validate({limit})
+
+    if(limitValidation.error) return res.sendStatus(422)
+
     next()
 }
 
@@ -52,5 +64,6 @@ const validatePostStatus = async(req, res, next) => {
 export{
     validatePostParticipants,
     validatePostMessages,
-    validatePostStatus
+    validatePostStatus,
+    validateLimit
 }
