@@ -1,6 +1,5 @@
 import { db } from "../config/connection.js"
 import dayjs from "dayjs"
-import { stripHtml } from "string-strip-html"
 
 
 const getMessages = async(req, res) => {
@@ -24,10 +23,10 @@ const postMessages = async(req, res) => {
     const {user} = req.headers
 
     await db.collection("messages").insertOne({
-        from: stripHtml(user).trim(),
-        to: stripHtml(to).trim(),
-        text: stripHtml(text).trim(),
-        type: stripHtml(type).trim(),
+        from: user,
+        to: to,
+        text: text,
+        type: type,
         time: dayjs().format("hh:mm:ss")
     })
 
