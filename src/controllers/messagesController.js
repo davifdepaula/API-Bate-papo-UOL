@@ -15,7 +15,7 @@ const getMessages = async(req, res) => {
         else return message
     })
     
-    if (limit > 0) return res.send(messages.reverse.slice(0, limit))
+    if(limit > 0) return res.send(messages.reverse().slice(0, limit))
     return res.send(messages)
 }
 
