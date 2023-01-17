@@ -76,8 +76,19 @@ const validatePut = async(req, res, next) => {
     const exist = await db.collection("messages").findOne({_id:ObjectID(id)})
 
     if(!exist) return res.sendStatus(404)
-    console.log(exist)
-    if(exist.from != user) return res.sendStatus(401)    
+    if(exist.from != user) return res.sendStatus(401)
+    const messageSchema = joi.object({
+        to: joi.string().required(),
+        text: joi.string().required(),
+        type: joi.string().valid("message", "private_message").required()
+    })
+    const messageValidation = messageSchema.validate(req.body, {abortEarly: false})
+    if(messageValidation.error) {
+        const errors = messageValidation.error.details.map((detail) => {
+           return detail.message
+        })
+        return res.status(422).send(errors)
+    }   
     next()
     return
 }

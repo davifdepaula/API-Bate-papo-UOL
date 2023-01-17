@@ -43,13 +43,17 @@ const deleteMessages = async(req, res) => {
 const putMessages = async(req, res) => {
     const {to, text, type} = req.body
     const {user} = req.headers
+    const {id} = req.params
 
-    await db.collection("messages").updateOne({_id: ObjectId(id)}, {
+    await db.collection("messages").updateOne(
+    {_id: ObjectId(id)},
+
+    {$set: {
         from: user,
         to: to,
         text: text,
         type: type,
-    })
+    }})
     return res.sendStatus(200)
 }
 
