@@ -40,8 +40,22 @@ const deleteMessages = async(req, res) => {
     return res.sendStatus(200)
 }
 
+const putMessages = async(req, res) => {
+    const {to, text, type} = req.body
+    const {user} = req.headers
+
+    await db.collection("messages").updateOne({_id: ObjectId(id)}, {
+        from: user,
+        to: to,
+        text: text,
+        type: type,
+    })
+    return res.sendStatus(200)
+}
+
 export {
     getMessages,
     postMessages,
-    deleteMessages
+    deleteMessages,
+    putMessages
 }

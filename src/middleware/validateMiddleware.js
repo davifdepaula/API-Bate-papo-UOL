@@ -70,10 +70,23 @@ const validateDelete = async(req, res, next) => {
     next()
 }
 
+const validatePut = async(req, res, next) => {
+    const {id} = req.params
+    const {user} = req.headers
+    const exist = await db.collection("messages").findOne({_id:ObjectID(id)})
+
+    if(!exist) return res.sendStatus(404)
+    console.log(exist)
+    if(exist.from != user) return res.sendStatus(401)    
+    next()
+    return
+}
+
 export{
     validatePostParticipants,
     validatePostMessages,
     validatePostStatus,
     validateLimit,
-    validateDelete
+    validateDelete, 
+    validatePut
 }
