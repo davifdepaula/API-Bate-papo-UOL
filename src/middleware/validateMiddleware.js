@@ -1,5 +1,6 @@
 import { db } from "../config/connection.js"
 import joi from "joi"
+import { ObjectID } from "bson"
 
 const validatePostParticipants = async(req, res, next) => {
     const participantsSchema = joi.object({
@@ -61,9 +62,10 @@ const validateLimit = (req, res, next) => {
 const validateDelete = async(req, res, next) => {
     const {id} = req.params
     const {user} = req.headers
-    const exist = await db.collection("messages").findOne({_id: ObjectId(id)})
+    const exist = await db.collection("messages").findOne({_id:ObjectID(id)})
 
     if(!exist) return res.sendStatus(404)
+    console.log(exist)
     if(exist.from != user) return res.sendStatus(401)    
     next()
 }
