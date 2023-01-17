@@ -58,12 +58,20 @@ const validateLimit = (req, res, next) => {
     next()
 }
 
+const validateDelete = (req, res, next) => {
+    const {id} = req.params
+    const {user} = req.headers
+    const exist = await db.collection("messages").findOne({_id: ObjectId(id)})
 
-
+    if(!exist) return res.sendStatus(404)
+    if(exist.from != user) return res.sendStatus(401)    
+    next()
+}
 
 export{
     validatePostParticipants,
     validatePostMessages,
     validatePostStatus,
-    validateLimit
+    validateLimit,
+    validateDelete
 }

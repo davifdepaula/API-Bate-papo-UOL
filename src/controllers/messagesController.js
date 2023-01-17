@@ -1,5 +1,6 @@
 import { db } from "../config/connection.js"
 import dayjs from "dayjs"
+import { ObjectId } from "mongodb"
 
 
 const getMessages = async(req, res) => {
@@ -33,7 +34,14 @@ const postMessages = async(req, res) => {
     return res.sendStatus(201)
 }
 
+const deleteMessages = async(req, res) => {
+    const {id}= req.params
+    await db.collection("messages").deleteOne({_id: ObjectId(id)})
+    return res.sendStatus(200)
+}
+
 export {
     getMessages,
-    postMessages
+    postMessages,
+    deleteMessages
 }

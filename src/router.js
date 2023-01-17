@@ -1,7 +1,7 @@
 import express from 'express'
-import { getMessages, postMessages } from './controllers/messagesController.js'
+import { deleteMessages, getMessages, postMessages } from './controllers/messagesController.js'
 import { getParticipants, postParticipants } from './controllers/participantsController.js'
-import { validateLimit, validatePostParticipants, validatePostStatus } from './middleware/validateMiddleware.js'
+import { validateDelete, validateLimit, validatePostParticipants, validatePostStatus } from './middleware/validateMiddleware.js'
 import { validatePostMessages } from './middleware/validateMiddleware.js'
 import { postStatus } from './controllers/statusController.js'
 
@@ -12,6 +12,7 @@ routes.get("/messages",validateLimit, getMessages)
 routes.post("/participants", validatePostParticipants, postParticipants)
 routes.post("/messages", validatePostMessages, postMessages)
 routes.post("/status", validatePostStatus, postStatus)
+routes.delete("/messages/:id", validateDelete, deleteMessages)
 
 export {
     routes
