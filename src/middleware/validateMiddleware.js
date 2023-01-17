@@ -58,7 +58,7 @@ const validateLimit = (req, res, next) => {
     next()
 }
 
-const validateDelete = (req, res, next) => {
+const validateDelete = async(req, res, next) => {
     const {id} = req.params
     const {user} = req.headers
     const exist = await db.collection("messages").findOne({_id: ObjectId(id)})
